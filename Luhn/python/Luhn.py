@@ -44,26 +44,23 @@
 #    1234567812345678
 #    1234567812345670
 
-defmodule Luhn do
-  def valid?(cc) do
+import unittest
 
-  end
-end
-# DO NOT EDIT BELOW THIS LINE
-ExUnit.start()
-defmodule LuhnTest do
-  use ExUnit.Case, async: true
+class Luhn:
+    @staticmethod
+    def valid(cc):
+        # YOUR CODE HERE
+        return True
 
-  test "49927398716" do
-    assert Luhn.valid?(49927398716)
-  end
-  test "49927398717" do
-    refute Luhn.valid?(49927398717)
-  end
-  test "1234567812345678" do
-    refute Luhn.valid?(1234567812345678)
-  end
-  test "1234567812345670" do
-    assert Luhn.valid?(1234567812345670)
-  end
-end
+
+class TestLuhn(unittest.TestCase):
+
+    def test(self):
+        # (FEEL FREE TO ADD/CHANGE TEST CASES, TOO)
+        self.assertTrue(Luhn.valid(49927398716))
+        self.assertFalse(Luhn.valid(49927398717))
+        self.assertTrue(Luhn.valid(1234567812345670))
+        self.assertFalse(Luhn.valid(1234567812345678))
+
+if __name__ == '__main__':
+    unittest.main()
