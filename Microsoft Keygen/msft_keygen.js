@@ -30,15 +30,28 @@ const generateKey = function(kind) {
 
 }
 
-[0,1,2].forEach(e => { console.assert(validKey(`${e * 111}-7777777`), "valid first section of 10-digit key marked as invalid") });
+// DO NOT EDIT BELOW THIS LINE
 
-[4,5,6,7,8,9].forEach(e => { console.assert(!validKey(`${e * 111}-7777777`), "invalid first section of 10-digit key marked as valid") });
+["000", "111", "222"].forEach(e => {
+  console.assert(validKey(`${e}-7777777`), "valid first section of 10-digit key marked as invalid")
+});
+
+[4,5,6,7,8,9].forEach(e => {
+  console.assert(!validKey(`${e * 111}-7777777`), "invalid first section of 10-digit key marked as valid")
+});
 
 console.assert(!validKey(`111-7777068`), "invalid last digit of 10-digit key marked as valid")
 console.assert(!validKey(`111-7777059`), "invalid last digit of 10-digit key marked as valid")
 
-console.assert(!validKey("`111-7777775"), "invalid last segment marked as valid");
+console.assert(!validKey("`111-7777775"), "invalid last segment of 10-digit key marked as valid");
 
+console.assert(validKey("13796-OEM-0134373-37984"), "valid oem key marked as invalid");
+console.assert(!validKey("37302-OEM-0683774-44111"), "oem key with invalid day marked as valid");
+console.assert(!validKey("20293-OEM-0670672-93055"), "oem key with invalid year marked as valid");
+console.assert(!validKey("16796-OEM-4636373-10164"), "oem key without 0 as first digit in 7-digit marked as valid");
+console.assert(!validKey("32301-OEM-0940671-30328"), "oem key with 7-digit non-divisible by 7 marked as valid");
+
+console.assert(!validKey("abcdefghijklmnop"), "malformed key marked as valid")
 
 console.assert(validKey(generateKey("ten_digit")));
 console.assert(validKey(generateKey("oem")));

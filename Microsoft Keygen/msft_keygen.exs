@@ -30,13 +30,17 @@
 #
 # Make every attempt to make your program "elixir-y".
 
-
 defmodule MicrosoftKeys do
+  @moduledoc """
+  Generate and validate Microsoft 95-era software keys
+  """
+
   @doc """
   Checks a given key for validity
   """
   @spec valid?(String.t()) :: boolean()
   def valid?(key) do
+
   end
 
   @doc """
@@ -44,6 +48,7 @@ defmodule MicrosoftKeys do
   """
   @spec generate_key(:ten_digit | :oem) :: String.t()
   def generate_key(type) do
+
   end
 end
 
@@ -54,31 +59,56 @@ defmodule MicrosoftKeysTest do
   use ExUnit.Case, async: true
 
   describe "valid?/1" do
-    test "accepts valid keys" do
+    test "accepts valid 10-digit keys" do
       for i <- 0..2 do
-        assert MicrosoftKeys.valid?("#{i * 111}-7777777")
+        site = :io_lib.format("~3..0B", [i * 111]) |> List.to_string()
+        assert MicrosoftKeys.valid?("#{site}-7777777")
       end
     end
 
-    test "rejects keys with invalid first digits" do
+    test "rejects 10-digit keys with invalid first digits" do
       for i <- 3..9 do
-        refute MicrosoftKeys.valid?("#{i * 111}-7777777")
+        site = :io_lib.format("~3..0B", [i]) |> List.to_string()
+        refute MicrosoftKeys.valid?("#{site}-7777777")
       end
     end
 
-    test "rejects keys with an invalid last digit" do
+    test "rejects 10-digit keys with an invalid last digit" do
       refute MicrosoftKeys.valid?("111-7777068")
       refute MicrosoftKeys.valid?("111-7777059")
     end
 
-    test "rejects keys with invalid last segment" do
+    test "rejects 10-digit keys with invalid last segment" do
       refute MicrosoftKeys.valid?("111-7777775")
+    end
+
+    test "accepts valid OEM keys" do
+      assert MicrosoftKeys.valid?("13796-OEM-0134373-37984")
+    end
+
+    test "rejects invalid days in OEM keys" do
+      refute MicrosoftKeys.valid?("37302-OEM-0683774-44111")
+    end
+
+    test "rejects invalid years in OEM keys" do
+      refute MicrosoftKeys.valid?("20293-OEM-0670672-93055")
+    end
+
+    test "rejects OEM keys without a 0 as the first digit of the 7-digit key" do
+      refute MicrosoftKeys.valid?("16796-OEM-4636373-10164")
+    end
+
+    test "rejects OEM keys where the 7-digit key isn't divisible by 7" do
+      refute MicrosoftKeys.valid?("32301-OEM-0940671-30328")
+    end
+
+    test "rejects malformed keys" do
+      refute MicrosoftKeys.valid?("abcdefghijklmnop")
     end
   end
 
   describe "generate_key/1" do
     test "generates a valid ten_digit key" do
-
       assert MicrosoftKeys.generate_key(:ten_digit) |> MicrosoftKeys.valid?()
     end
 
