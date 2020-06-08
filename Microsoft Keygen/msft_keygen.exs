@@ -5,7 +5,7 @@
 # There are two major types of keys, 10-digit keys and OEM keys.
 #
 # 10-digit keys take the format of XXX-XXXXXXX.
-# The first 3 digits can be any value except repeating digits of 3-9.
+# The first 3 digits can be any value except repeating digits of 3-9, such as 333, 444, 555...
 # The second 7 digits have the following restrictions
 #  - The sum of the digits must be evenly divisible by 7
 #  - The last digit cannot be 0 or >= 8
@@ -18,7 +18,7 @@
 # The second segment must always be the letters OEM
 # The third segment is the same as the above 10-digit keys, with one exception:
 #   The first digit must be 0.
-# The fourth segment can be anything, provided its appropriate length
+# The fourth segment can be any digits, provided its appropriate length
 #
 #
 # Task
